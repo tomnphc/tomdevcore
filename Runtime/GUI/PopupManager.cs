@@ -11,6 +11,10 @@ namespace TomDev.GUI
         [Header("Reference to the Canvas for popups")]
         public Canvas popupCanvas;
 
+        [Header("Background Settings")]
+        public Color backgroundColor = Color.black;
+        [Range(0, 1)] public float backgroundAlpha = 0.8f;
+        
         private readonly Dictionary<Type, TomPopup> _popupDict = new();
         private readonly Dictionary<TomPopup, GameObject> _backgroundDict = new();
 
@@ -76,8 +80,8 @@ namespace TomDev.GUI
                 Debug.LogWarning("PopupManager: popupCanvas is not assigned!");
             }
 
-            // Create black background as sibling (behind popup)
-            var bg = CreateBackground(popup.transform);
+            // Create background (custom or default)
+            var bg = CreateBackground(popup.transform, popup);
             _backgroundDict[popup] = bg;
             popup.SetBackground(bg.GetComponent<CanvasGroup>());
 
@@ -85,9 +89,20 @@ namespace TomDev.GUI
             return (T)popup;
         }
 
-        private GameObject CreateBackground(Transform popupTransform)
+        private GameObject CreateBackground(Transform popupTransform, TomPopup popup)
         {
-            var bgGo = new GameObject("TomPopup_Background", typeof(RectTransform), typeof(CanvasGroup), typeof(Image));
+            GameObject bgGo = null;
+            if (popup.useCustomBackground && popup.customBackgroundPrefab != null)
+            {
+                bgGo = Instantiate(popup.customBackgroundPrefab);
+            }
+            else
+            {
+                bgGo = new GameObject("TomPopup_Background", typeof(RectTransform), typeof(CanvasGroup), typeof(Image));
+                var img = bgGo.GetComponent<Image>();
+                img.color = new Color(backgroundColor.r, backgroundColor.g, backgroundColor.b, 1f);
+                img.raycastTarget = true;
+            }
             var bgRect = bgGo.GetComponent<RectTransform>();
             bgRect.SetParent(popupCanvas != null ? popupCanvas.transform : popupTransform.parent, false);
             bgRect.SetAsLastSibling();
@@ -95,13 +110,13 @@ namespace TomDev.GUI
             bgRect.anchorMax = Vector2.one;
             bgRect.offsetMin = Vector2.zero;
             bgRect.offsetMax = Vector2.zero;
-            var img = bgGo.GetComponent<Image>();
-            img.color = Color.black;
-            img.raycastTarget = true;
             var group = bgGo.GetComponent<CanvasGroup>();
             group.alpha = 0f;
             group.interactable = true;
             group.blocksRaycasts = true;
+            // Gắn script background
+            var bgScript = bgGo.GetComponent<TomPopupBackground>() ?? bgGo.AddComponent<TomPopupBackground>();
+            bgScript.SetPopup(popup);
             // Đảm bảo background nằm dưới popup
             popupTransform.SetAsLastSibling();
             bgGo.transform.SetSiblingIndex(popupTransform.GetSiblingIndex() - 1);

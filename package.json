@@ -29,9 +29,9 @@
   "homepage": "https://github.com/tomnphc/tomdevcore#readme",
   "samples": [
     {
-      "displayName": "DataSO Examples",
-      "description": "Examples showing how to use TomDev.DataSO package",
-      "path": "Samples~/DataSOExamples"
+      "displayName": "Examples",
+      "description": "Example scenes, soundfx, and usage for TomDevCore.",
+      "path": "Examples"
     }
   ]
 } 

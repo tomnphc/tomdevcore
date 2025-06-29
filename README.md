@@ -1,123 +1,47 @@
-# TomDev Core
+# TomDevCore v2.0.1
 
-A comprehensive Unity package providing core utilities and data management systems for game development.
+TomDevCore là Unity package cung cấp các module tiện ích cho quản lý dữ liệu (DataSO), hệ thống popup, notification, button tuỳ biến, v.v. Chuẩn hoá theo best practice, dễ mở rộng, dễ tích hợp.
 
-## 🚀 Features
+## Dependencies (Bắt buộc)
+- [TextMeshPro](https://docs.unity3d.com/Packages/com.unity.textmeshpro@latest) (có sẵn trong Unity, cần import vào project)
+- [DOTween](http://dotween.demigiant.com/) (import từ Asset Store hoặc website)
+- [UniTask](https://github.com/Cysharp/UniTask) (import từ GitHub hoặc OpenUPM)
 
-### TomDev.DataSO
-ScriptableObject-based data management system with automatic PlayerPrefs integration:
+> **Lưu ý:** Các dependency này được tham chiếu qua assembly definition, bạn cần import đủ để tránh lỗi biên dịch.
 
-- **ScriptableInt**: Integer value storage with operator overloads
-- **ScriptableFloat**: Float value storage with operator overloads  
-- **ScriptableBool**: Boolean value storage with operator overloads
-- **ScriptableString**: String value storage with helper methods
-- **ScriptableCustom<T>**: Generic class for custom data types
-- **Auto-save**: Automatic PlayerPrefs integration when enabled
-- **Context menus**: Built-in validation and utility functions
-- **Optional Odin Inspector Integration**: Enhanced inspector when Odin Inspector is available
+## Cài đặt
+1. Clone/copy package vào thư mục `Packages/tomdevcore` hoặc import qua git nếu đã public.
+2. Đảm bảo đã import đủ các dependency trên.
+3. Thêm prefab `PopupManager` vào scene, gán Canvas và các prefab notification, popup mẫu nếu muốn.
 
-## 📦 Installation
-
-### Prerequisites
-This package requires **Odin Inspector** to be installed in your project.
-
-### Via Git URL
-Add this to your `Packages/manifest.json`:
-```json
-{
-  "dependencies": {
-    "com.tomdev.core": "https://github.com/your-username/TomDev-Core.git"
-  }
-}
-```
-
-### Via OpenUPM
-```bash
-openupm add com.tomdev.core
-```
-
-## 🎮 Quick Start
-
-### Creating Data Assets
-1. Right-click in Project window
-2. Create → TomDev → DataSO → [Data Type]
-3. Configure Saved and PrefKey settings
-4. Use enhanced inspector if Odin Inspector is available
-
-### Using in Code
+## Sử dụng nhanh
+### Hiện Popup
 ```csharp
-using TomDev.DataSO;
-
-public class GameManager : MonoBehaviour
-{
-    [SerializeField] private ScriptableInt playerScore;
-    [SerializeField] private ScriptableBool isFirstTime;
-    
-    void Start()
-    {
-        // Get values
-        int score = playerScore.Value;
-        bool firstTime = isFirstTime.Value;
-        
-        // Set values
-        playerScore.SetValue(1000);
-        isFirstTime.SetValue(false);
-        
-        // Use operator overloads
-        playerScore++; // Increment
-        playerScore += 100; // Add 100
-    }
-}
+// Tạo prefab kế thừa TomPopup, đặt vào Resources
+PopupManager.Instance.Show<MyCustomPopup>();
 ```
 
-### Enhanced Inspector Features (Optional)
-If you have Odin Inspector installed, you get:
-- **Buttons**: Direct access to common actions
-- **Validation**: Required fields and value constraints
-- **Conditional Display**: Show/hide fields based on conditions
-- **Better Organization**: Titles and property ordering
+### Hiện Notification
+```csharp
+PopupManager.Instance.ShowNotification("Nội dung thông báo!");
+```
 
-## 📚 Documentation
+### Button tuỳ biến
+```csharp
+// Gán TomButton vào bất kỳ GameObject UI nào
+myTomButton.RegisterOnClick(() => {
+    Debug.Log("Button clicked!");
+});
+```
 
-See the [Documentation](Documentation~/README.md) folder for detailed usage examples and API reference.
+## Các module chính
+- **TomDev.DataSO**: Quản lý dữ liệu dạng ScriptableObject, hỗ trợ auto-save, PlayerPrefs, operator overload, custom data.
+- **TomDev.GUI**: Hệ thống popup, notification, button tuỳ biến, hỗ trợ animation, sound, background, v.v.
 
-## 🔧 Dependencies
-
-- **Unity 2022.3+**: Minimum Unity version
-- **Odin Inspector** (Optional): For enhanced inspector features
-
-### Installing Odin Inspector (Optional)
-If you want enhanced inspector features:
-1. Purchase Odin Inspector from Unity Asset Store
-2. Import it into your project
-3. The package will automatically detect and enable enhanced features
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-- 📧 Email: your-email@example.com
-- 🐛 Issues: [GitHub Issues](https://github.com/your-username/TomDev-Core/issues)
-- 📖 Wiki: [GitHub Wiki](https://github.com/your-username/TomDev-Core/wiki)
-
-## 🔮 Roadmap
-
-- [ ] TomDev.Cheat - Cheat system and debug tools
-- [ ] TomDev.GUI - UI utilities and components
-- [ ] TomDev.Audio - Audio management system
-- [ ] TomDev.Network - Networking utilities
-- [ ] TomDev.AI - AI and pathfinding tools
+## Update log
+- **2.0.1**: Yêu cầu TextMeshPro, UniTask, DOTween. Notification dùng TMP. Popup hỗ trợ async UniTask. Fix minor bugs.
+- **2.0.0**: Chuẩn hoá package, thêm nhiều tuỳ chọn cho popup, button, sample, hướng dẫn chi tiết.
 
 ---
 
-Made with ❤️ by TomDev 
+Mọi thắc mắc/cần hỗ trợ, liên hệ tác giả hoặc tạo issue trên repo! 

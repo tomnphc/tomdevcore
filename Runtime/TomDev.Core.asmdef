@@ -3,7 +3,8 @@
     "rootNamespace": "TomDev",
     "references": [
         "DOTween.Modules",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "UniTask"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

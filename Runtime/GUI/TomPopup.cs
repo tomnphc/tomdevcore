@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Cysharp.Threading.Tasks;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
@@ -77,24 +78,25 @@ namespace TomDev.GUI
             }
         }
 
-        public virtual void HideAndDestroy()
+        public virtual async UniTask HideAndDestroy()
         {
             if (playSound && soundOut != null)
             {
                 AudioSource.PlayClipAtPoint(soundOut, Camera.main != null ? Camera.main.transform.position : Vector3.zero);
             }
+            
             _hideTween?.Kill();
             _hideTween = DOTween.Sequence()
                 .Append(_popupGroup.DOFade(0f, fadeDuration).SetUpdate(true))
                 .Join(_popupRoot.DOScale(0.5f, scaleDuration).SetEase(popupEasing == Ease.OutBack ? Ease.InBack : popupEasing).SetUpdate(true))
                 .Join((isShowBackground && _bgGroup != null) ? _bgGroup.DOFade(0f, fadeDuration).SetUpdate(true) : null)
-                .SetUpdate(true)
-                .OnComplete(() =>
-                {
-                    if (_bgGroup != null)
-                        Destroy(_bgGroup.gameObject);
-                    Destroy(gameObject);
-                });
+                .SetUpdate(true);
+
+            await _hideTween.AsyncWaitForCompletion().AsUniTask();
+            
+            if (_bgGroup != null)
+                Destroy(_bgGroup.gameObject);
+            Destroy(gameObject);
         }
     }
 } 

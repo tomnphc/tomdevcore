@@ -2,7 +2,8 @@
     "name": "TomDev.Core",
     "rootNamespace": "TomDev",
     "references": [
-        "DOTween.Modules"
+        "DOTween.Modules",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -12,12 +13,5 @@
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
-    "noEngineReferences": false,
-    "samples": [
-        {
-            "displayName": "SoundFX Example",
-            "description": "Sample sound effects for TomDevCore",
-            "path": "Samples~/SoundFX"
-        }
-    ]
+    "noEngineReferences": false
 }

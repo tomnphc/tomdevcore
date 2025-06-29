@@ -14,6 +14,9 @@ namespace TomDev.GUI
         [Header("Background Settings")]
         public Color backgroundColor = Color.black;
         [Range(0, 1)] public float backgroundAlpha = 0.8f;
+
+        [Header("Notification Settings")]
+        public TomNotification notificationPrefab;
         
         private readonly Dictionary<Type, TomPopup> _popupDict = new();
         private readonly Dictionary<TomPopup, GameObject> _backgroundDict = new();
@@ -27,6 +30,24 @@ namespace TomDev.GUI
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+        }
+
+        public void ShowNotification(string content)
+        {
+            if (notificationPrefab == null)
+            {
+                Debug.LogError("[PopupManager] Notification prefab is not assigned!");
+                return;
+            }
+
+            if (popupCanvas == null)
+            {
+                Debug.LogError("[PopupManager] Popup canvas is not assigned!");
+                return;
+            }
+
+            var notification = Instantiate(notificationPrefab, popupCanvas.transform);
+            notification.ShowNotification(content);
         }
 
         public T Show<T>() where T : TomPopup

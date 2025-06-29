@@ -53,7 +53,7 @@ namespace TomDev.DataSO
         public void SetValue(T value)
         {
             currentValue = value ?? new T();
-            
+            InvokeValueChange();
             if (saved && !string.IsNullOrEmpty(prefKey))
             {
                 try

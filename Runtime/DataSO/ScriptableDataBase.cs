@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -20,6 +21,12 @@ namespace TomDev.DataSO
         
         public bool Saved => saved;
         public string PrefKey => prefKey;
+
+        // Event system
+        public event Action OnValueChange;
+        public void AddListener(Action listener) => OnValueChange += listener;
+        public void RemoveListener(Action listener) => OnValueChange -= listener;
+        protected void InvokeValueChange() => OnValueChange?.Invoke();
         
         protected virtual void OnValidate()
         {

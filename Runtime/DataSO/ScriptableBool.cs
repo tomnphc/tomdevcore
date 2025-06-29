@@ -40,7 +40,7 @@ namespace TomDev.DataSO
         public void SetValue(bool value)
         {
             currentValue = value;
-            
+            InvokeValueChange();
             if (saved && !string.IsNullOrEmpty(prefKey))
             {
                 PlayerPrefs.SetInt(prefKey, value ? 1 : 0);

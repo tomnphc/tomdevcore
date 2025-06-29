@@ -1,7 +1,9 @@
 {
     "name": "TomDev.Core",
     "rootNamespace": "TomDev",
-    "references": [],
+    "references": [
+        "DOTween.Modules"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
@@ -11,4 +13,4 @@
     "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false
-} 
+}

@@ -1,8 +1,8 @@
 {
   "name": "com.tomdev.core",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "displayName": "TomDev Core",
-  "description": "Core package for TomDev framework including DataSO, Cheat, GUI and other utilities",
+  "description": "Core package for TomDev framework including DataSO, GUI, etc.",
   "unity": "2022.3",
   "dependencies": {},
   "keywords": [
